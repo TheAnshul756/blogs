@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import Search from '../components/Search.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { siteConfig } from '../site.config';
+import { getAllPosts } from '../lib/posts';
+import { withBase } from '../lib/url';
+
+const posts = await getAllPosts();
+const recent = posts.slice(0, 6);
+---
+<BaseLayout>
+  <section class="hero">
+    <h1>{siteConfig.title}</h1>
+    <p class="muted">{siteConfig.description}</p>
+  </section>
+
+  <Search />
+
+  <section>
+    <div class="section-header">
+      <h2>Recent posts</h2>
+      <a class="muted small" href={withBase('/posts/')}>All posts →</a>
+    </div>
+    {recent.map((p) => <PostCard post={p} />)}
+  </section>
+
+  <Newsletter />
+
+  <style>
+    .hero { margin: 1rem 0 1.5rem; }
+    .hero h1 { margin: 0 0 0.35rem; font-size: 2rem; }
+    .hero p { margin: 0; }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 0.5rem 0 0.25rem;
+    }
+    .section-header h2 { margin: 0; font-size: 1.25rem; }
+  </style>
+</BaseLayout>

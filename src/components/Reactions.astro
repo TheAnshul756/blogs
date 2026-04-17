@@ -1,0 +1,96 @@
+---
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+---
+<div class="reactions" data-slug={slug}>
+  <button class="reaction" data-reaction="like" aria-label="Like">
+    <span class="emoji">👍</span>
+    <span class="count" data-count="like">0</span>
+  </button>
+  <button class="reaction" data-reaction="love" aria-label="Love">
+    <span class="emoji">❤️</span>
+    <span class="count" data-count="love">0</span>
+  </button>
+  <button class="reaction" data-reaction="insightful" aria-label="Insightful">
+    <span class="emoji">💡</span>
+    <span class="count" data-count="insightful">0</span>
+  </button>
+  <button class="reaction" data-reaction="celebrate" aria-label="Celebrate">
+    <span class="emoji">🎉</span>
+    <span class="count" data-count="celebrate">0</span>
+  </button>
+</div>
+
+<style>
+  .reactions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+  .reaction {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--fg);
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .reaction:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .reaction.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .reaction:active { transform: scale(0.97); }
+  .emoji { font-size: 1.05rem; }
+  .count { font-variant-numeric: tabular-nums; color: var(--fg-muted); }
+  .reaction.active .count { color: var(--accent); }
+</style>
+
+<script is:inline>
+  (function () {
+    const container = document.querySelector('.reactions');
+    if (!container) return;
+    const slug = container.getAttribute('data-slug') || 'default';
+    const storeKey = `reactions:${slug}`;
+    const localKey = `reactions-mine:${slug}`;
+    const state = JSON.parse(localStorage.getItem(storeKey) || '{}');
+    const mine = JSON.parse(localStorage.getItem(localKey) || '{}');
+
+    const render = () => {
+      container.querySelectorAll('[data-reaction]').forEach((btn) => {
+        const key = btn.getAttribute('data-reaction');
+        const count = state[key] || 0;
+        const el = btn.querySelector(`[data-count="${key}"]`);
+        if (el) el.textContent = count;
+        if (mine[key]) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+    };
+    render();
+
+    container.querySelectorAll('[data-reaction]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-reaction');
+        if (!key) return;
+        if (mine[key]) {
+          state[key] = Math.max(0, (state[key] || 1) - 1);
+          delete mine[key];
+        } else {
+          state[key] = (state[key] || 0) + 1;
+          mine[key] = true;
+        }
+        localStorage.setItem(storeKey, JSON.stringify(state));
+        localStorage.setItem(localKey, JSON.stringify(mine));
+        render();
+      });
+    });
+  })();
+</script>

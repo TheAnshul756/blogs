@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theanshul756.github.io/blogs/sitemap-index.xml

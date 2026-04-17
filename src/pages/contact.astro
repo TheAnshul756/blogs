@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { siteConfig } from '../site.config';
+import { withBase } from '../lib/url';
+---
+<BaseLayout title="Contact" description="Get in touch.">
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Contact' }]} />
+  <header class="page-header">
+    <h1>Contact</h1>
+    <p class="muted">Have a question, an idea, or want to work together? Send a message.</p>
+  </header>
+
+  <form
+    class="contact-form"
+    action={siteConfig.contact.formspree}
+    method="POST"
+  >
+    <label>
+      <span>Your name</span>
+      <input type="text" name="name" required autocomplete="name" />
+    </label>
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+    <label>
+      <span>Subject</span>
+      <input type="text" name="subject" required />
+    </label>
+    <label>
+      <span>Message</span>
+      <textarea name="message" rows="6" required></textarea>
+    </label>
+    <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" />
+    <button type="submit" class="btn btn-primary">Send message</button>
+  </form>
+
+  <p class="muted small direct">
+    Prefer email? Write to <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+  </p>
+
+  <Newsletter />
+
+  <style>
+    .page-header h1 { margin: 0 0 0.25rem; }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-width: var(--content-width);
+      margin-top: 1rem;
+    }
+    .contact-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.9rem;
+      color: var(--fg-muted);
+    }
+    .contact-form input,
+    .contact-form textarea {
+      padding: 0.6rem 0.75rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-strong);
+      background: var(--bg);
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .contact-form button { align-self: flex-start; }
+    .direct { margin-top: 1rem; }
+  </style>
+</BaseLayout>

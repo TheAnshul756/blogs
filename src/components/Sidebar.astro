@@ -1,0 +1,177 @@
+---
+import { siteConfig } from '../site.config';
+import { withBase, stripBase } from '../lib/url';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = stripBase(Astro.url.pathname);
+function isActive(href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname === href + '/' || pathname.startsWith(href + '/');
+}
+---
+<aside class="sidebar">
+  <div class="sidebar-inner">
+    <a href={withBase('/')} class="brand">
+      <span class="brand-mark">▲</span>
+      <span class="brand-name">{siteConfig.title}</span>
+    </a>
+    <p class="brand-tag">{siteConfig.description}</p>
+
+    <nav aria-label="Primary">
+      <ul class="nav">
+        {siteConfig.nav.map((item) => (
+          <li>
+            <a
+              href={withBase(item.href)}
+              class={`nav-link${isActive(item.href) ? ' active' : ''}`}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="sidebar-actions">
+      <ThemeToggle />
+      <a class="btn" href={withBase('/rss.xml')} title="RSS feed" aria-label="RSS feed">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        RSS
+      </a>
+    </div>
+
+    <div class="sidebar-socials">
+      <a href={siteConfig.social.github} rel="me" target="_blank" title="GitHub">GitHub</a>
+      <a href={siteConfig.social.twitter} rel="me" target="_blank" title="Twitter">Twitter</a>
+      <a href={siteConfig.social.linkedin} rel="me" target="_blank" title="LinkedIn">LinkedIn</a>
+    </div>
+  </div>
+</aside>
+
+<button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <path d="M3 6h18M3 12h18M3 18h18"/>
+  </svg>
+</button>
+
+<style>
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    border-right: 1px solid var(--border);
+    background: var(--bg-elev);
+    overflow-y: auto;
+    z-index: 30;
+  }
+  .sidebar-inner {
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--fg);
+    font-size: 1.1rem;
+  }
+  .brand:hover { text-decoration: none; }
+  .brand-mark { color: var(--accent); }
+  .brand-tag {
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    margin: 0.5rem 0 1.25rem;
+  }
+  .nav {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .nav-link {
+    display: block;
+    padding: 0.45rem 0.65rem;
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-size: 0.95rem;
+  }
+  .nav-link:hover {
+    background: var(--bg);
+    text-decoration: none;
+  }
+  .nav-link.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sidebar-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+  .sidebar-socials {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+  }
+  .sidebar-socials a {
+    color: var(--fg-muted);
+  }
+  .menu-toggle {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 40;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: var(--fg);
+    border: 1px solid var(--border-strong);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .menu-toggle { display: inline-flex; }
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    }
+    .sidebar.open { transform: translateX(0); }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const toggle = document.getElementById('menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (!toggle || !sidebar) return;
+    toggle.addEventListener('click', () => {
+      const isOpen = sidebar.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth > 900) return;
+      if (!sidebar.classList.contains('open')) return;
+      if (sidebar.contains(e.target) || toggle.contains(e.target)) return;
+      sidebar.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  })();
+</script>

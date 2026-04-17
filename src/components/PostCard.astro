@@ -1,0 +1,71 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, getReadingTime } from '../lib/posts';
+import { withBase } from '../lib/url';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  compact?: boolean;
+}
+const { post, compact = false } = Astro.props;
+const rt = getReadingTime(post.body);
+---
+<article class={`post-card${compact ? ' compact' : ''}`}>
+  <h3 class="post-card-title">
+    <a href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>
+  </h3>
+  <p class="post-card-meta">
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+    <span class="dot">•</span>
+    <span>{rt}</span>
+    {post.data.category && (
+      <>
+        <span class="dot">•</span>
+        <a class="cat" href={withBase(`/categories/${post.data.category.toLowerCase()}/`)}>{post.data.category}</a>
+      </>
+    )}
+  </p>
+  {!compact && <p class="post-card-desc">{post.data.description}</p>}
+  {!compact && post.data.tags.length > 0 && (
+    <div class="post-card-tags">
+      {post.data.tags.map((t) => (
+        <a class="chip" href={withBase(`/tags/${t.toLowerCase()}/`)}>#{t}</a>
+      ))}
+    </div>
+  )}
+</article>
+
+<style>
+  .post-card {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-card:last-child { border-bottom: none; }
+  .post-card.compact { padding: 0.5rem 0; border: none; }
+  .post-card-title {
+    margin: 0 0 0.35rem;
+    font-size: 1.2rem;
+  }
+  .post-card-title a {
+    color: var(--fg);
+  }
+  .post-card-title a:hover { color: var(--accent); text-decoration: none; }
+  .post-card-meta {
+    margin: 0 0 0.5rem;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .post-card-meta .dot { color: var(--fg-faint); }
+  .post-card-meta .cat { color: var(--fg-muted); }
+  .post-card-meta .cat:hover { color: var(--accent); }
+  .post-card-desc {
+    margin: 0.25rem 0 0.5rem;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+  }
+  .post-card-tags { margin-top: 0.5rem; }
+</style>

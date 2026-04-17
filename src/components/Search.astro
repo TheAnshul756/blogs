@@ -1,0 +1,135 @@
+---
+import { withBase } from '../lib/url';
+const pagefindJs = withBase('/pagefind/pagefind-ui.js');
+const pagefindCss = withBase('/pagefind/pagefind-ui.css');
+---
+<div class="search-wrap">
+  <button id="search-open" class="search-trigger" aria-label="Open search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/>
+      <path d="M21 21l-4.3-4.3"/>
+    </svg>
+    <span>Search posts…</span>
+    <kbd>/</kbd>
+  </button>
+</div>
+
+<dialog id="search-dialog" aria-label="Search">
+  <div class="search-dialog-inner">
+    <div id="pagefind-search"></div>
+    <button id="search-close" class="btn close-btn" aria-label="Close search">Esc</button>
+  </div>
+</dialog>
+
+<style>
+  .search-wrap { margin-bottom: 1.25rem; }
+  .search-trigger {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-strong);
+    background: var(--bg-elev);
+    color: var(--fg-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .search-trigger:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .search-trigger kbd {
+    margin-left: auto;
+    padding: 0.05rem 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg-muted);
+  }
+  dialog#search-dialog {
+    max-width: 640px;
+    width: 92%;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  dialog::backdrop {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(2px);
+  }
+  .search-dialog-inner { padding: 1rem; position: relative; }
+  .close-btn { position: absolute; top: 0.65rem; right: 0.65rem; }
+  #pagefind-search {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: var(--accent);
+    --pagefind-ui-text: var(--fg);
+    --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: var(--bg-elev);
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+</style>
+
+<script define:vars={{ pagefindJs }}>
+  async function setup() {
+    const openBtn = document.getElementById('search-open');
+    const dialog = document.getElementById('search-dialog');
+    const closeBtn = document.getElementById('search-close');
+    const container = document.getElementById('pagefind-search');
+    if (!openBtn || !dialog || !container) return;
+
+    let initialized = false;
+    async function initPagefind() {
+      if (initialized) return;
+      initialized = true;
+      try {
+        const mod = await import(/* @vite-ignore */ pagefindJs);
+        const PagefindUI = mod.PagefindUI || (mod.default && mod.default.PagefindUI);
+        new PagefindUI({ element: '#pagefind-search', showSubResults: true });
+      } catch (e) {
+        container.innerHTML = '<p class="muted small">Search index is generated at build time. Run <code>npm run build</code> to enable search.</p>';
+      }
+    }
+
+    const open = async () => {
+      await initPagefind();
+      if (!dialog.open) dialog.showModal();
+      const input = dialog.querySelector('input[type="text"], input[type="search"]');
+      setTimeout(() => input && input.focus(), 50);
+    };
+
+    openBtn.addEventListener('click', open);
+    if (closeBtn) closeBtn.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    document.addEventListener('keydown', (e) => {
+      const t = e.target;
+      const inField = t && typeof t.matches === 'function' && t.matches('input, textarea');
+      if (e.key === '/' && !inField) {
+        e.preventDefault();
+        open();
+      }
+      if (e.key === 'Escape' && dialog.open) dialog.close();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup);
+  } else {
+    setup();
+  }
+</script>
+
+<link rel="stylesheet" href={pagefindCss} onerror="this.remove()" />

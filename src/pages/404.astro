@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
+---
+<BaseLayout title="Not found" description="The page you're looking for doesn't exist." noIndex>
+  <section class="nf">
+    <h1>404</h1>
+    <p class="muted">That page doesn't exist. It may have moved or never been here.</p>
+    <p>
+      <a class="btn btn-primary" href={withBase('/')}>Home</a>
+      <a class="btn" href={withBase('/posts/')}>All posts</a>
+    </p>
+  </section>
+
+  <style>
+    .nf { text-align: center; padding: 4rem 0; }
+    .nf h1 { font-size: 5rem; margin: 0; color: var(--accent); }
+  </style>
+</BaseLayout>

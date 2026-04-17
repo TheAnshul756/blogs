@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getAllSeries, slugify } from '../../lib/posts';
+import { withBase } from '../../lib/url';
+
+const series = await getAllSeries();
+const entries = [...series.entries()].sort((a, b) => b[1].length - a[1].length);
+---
+<BaseLayout title="Series" description="Multi-part post series.">
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Series' }]} />
+  <header class="page-header">
+    <h1>Series</h1>
+    <p class="muted">Posts grouped into multi-part sequences.</p>
+  </header>
+
+  {entries.length === 0 && <p class="muted">No series yet.</p>}
+
+  <ul class="series-list">
+    {entries.map(([name, posts]) => (
+      <li>
+        <a href={withBase(`/series/${slugify(name)}/`)}>
+          <span class="series-name">{name}</span>
+          <span class="muted small">{posts.length} parts</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <style>
+    .series-list { list-style: none; padding: 0; margin: 1rem 0; }
+    .series-list li { border-bottom: 1px solid var(--border); }
+    .series-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.85rem 0;
+      color: var(--fg);
+    }
+    .series-list a:hover { text-decoration: none; }
+    .series-list a:hover .series-name { color: var(--accent); }
+    .series-name { font-weight: 500; }
+    .page-header h1 { margin: 0 0 0.25rem; }
+  </style>
+</BaseLayout>
