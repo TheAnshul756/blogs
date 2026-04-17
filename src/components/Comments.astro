@@ -1,0 +1,40 @@
+---
+import { siteConfig } from '../site.config';
+const g = siteConfig.giscus;
+---
+<section class="comments" aria-label="Comments">
+  <h2>Comments</h2>
+  <div id="giscus-container"></div>
+</section>
+
+<style>
+  .comments { margin-top: 2.5rem; }
+  .comments h2 { margin-bottom: 0.75rem; }
+</style>
+
+<script is:inline define:vars={{ g }}>
+  (function () {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+    if (!g.repoId || g.repoId.startsWith('REPLACE_')) {
+      container.innerHTML = '<p class="muted small">Comments require Giscus configuration. Update <code>src/site.config.ts</code> with your repo and category IDs.</p>';
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-repo', g.repo);
+    s.setAttribute('data-repo-id', g.repoId);
+    s.setAttribute('data-category', g.category);
+    s.setAttribute('data-category-id', g.categoryId);
+    s.setAttribute('data-mapping', g.mapping);
+    s.setAttribute('data-strict', g.strict);
+    s.setAttribute('data-reactions-enabled', g.reactionsEnabled);
+    s.setAttribute('data-emit-metadata', g.emitMetadata);
+    s.setAttribute('data-input-position', g.inputPosition);
+    s.setAttribute('data-theme', g.theme);
+    s.setAttribute('data-lang', g.lang);
+    container.appendChild(s);
+  })();
+</script>

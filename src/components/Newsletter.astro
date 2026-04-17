@@ -1,0 +1,51 @@
+---
+import { siteConfig } from '../site.config';
+const show = siteConfig.newsletter.enabled;
+---
+{show && (
+<section class="newsletter">
+  <h3>Subscribe to the newsletter</h3>
+  <p class="muted small">Occasional posts on engineering, systems, and tools I'm using. No spam.</p>
+  <form
+    action={siteConfig.newsletter.action}
+    method="post"
+    target="popupwindow"
+    class="nl-form"
+  >
+    <input type="email" name="email" placeholder="you@example.com" required />
+    <button type="submit" class="btn btn-primary">Subscribe</button>
+  </form>
+</section>
+)}
+
+<style>
+  .newsletter {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+  }
+  .newsletter h3 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+  .nl-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .nl-form input {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 0.95rem;
+  }
+  .nl-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+</style>

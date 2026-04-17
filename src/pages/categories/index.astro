@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getAllCategories } from '../../lib/posts';
+
+const cats = await getAllCategories();
+const entries = [...cats.entries()].sort((a, b) => b[1].length - a[1].length);
+---
+<BaseLayout title="Categories" description="Browse posts by category.">
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Categories' }]} />
+  <header class="page-header">
+    <h1>Categories</h1>
+    <p class="muted">Top-level buckets for posts.</p>
+  </header>
+  <ul class="cat-list">
+    {entries.map(([cat, posts]) => (
+      <li>
+        <a href={`/categories/${cat.toLowerCase()}/`}>
+          <span class="cat-name">{cat}</span>
+          <span class="muted small">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <style>
+    .cat-list { list-style: none; padding: 0; margin: 1rem 0; }
+    .cat-list li { border-bottom: 1px solid var(--border); }
+    .cat-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.85rem 0;
+      color: var(--fg);
+    }
+    .cat-list a:hover { text-decoration: none; }
+    .cat-list a:hover .cat-name { color: var(--accent); }
+    .cat-name { font-weight: 500; font-size: 1.05rem; }
+    .page-header h1 { margin: 0 0 0.25rem; }
+  </style>
+</BaseLayout>

@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { siteConfig } from '../site.config';
+---
+<BaseLayout title="About" description={`About ${siteConfig.author} and this blog.`}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+  <article class="about">
+    <header class="about-header">
+      <div class="avatar" aria-hidden="true">{siteConfig.author.charAt(0)}</div>
+      <div>
+        <h1>Hi, I'm {siteConfig.author}.</h1>
+        <p class="muted">Software engineer writing about systems, tools, and the craft of shipping things.</p>
+      </div>
+    </header>
+
+    <h2>About this blog</h2>
+    <p>
+      This is a space for long-form notes on problems I've worked through —
+      from distributed systems and database internals to developer workflow
+      and the small tools that make the job more pleasant.
+    </p>
+
+    <h2>What you'll find here</h2>
+    <ul>
+      <li>Deep-dives into specific engineering problems</li>
+      <li>Reviews of tools and libraries I'm using</li>
+      <li>Short notes and experiments</li>
+      <li>Occasional opinion pieces on software culture</li>
+    </ul>
+
+    <h2>Hire me / get in touch</h2>
+    <p>
+      I'm open to interesting freelance, consulting, and full-time roles.
+      Reach out via the <a href="/contact">contact form</a>
+      or drop me an email at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+    </p>
+    <p class="cta-row">
+      <a class="btn btn-primary" href="/contact">Get in touch</a>
+      <a class="btn" href="/resume.pdf">Download resume</a>
+    </p>
+
+    <h2>Elsewhere</h2>
+    <p>
+      <a href={siteConfig.social.github} target="_blank" rel="me">GitHub</a> ·
+      <a href={siteConfig.social.twitter} target="_blank" rel="me">Twitter</a> ·
+      <a href={siteConfig.social.linkedin} target="_blank" rel="me">LinkedIn</a>
+    </p>
+  </article>
+
+  <style>
+    .about { max-width: var(--content-width); }
+    .about-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .about-header h1 { margin: 0 0 0.25rem; }
+    .about-header p { margin: 0; }
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: var(--accent-fg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .cta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  </style>
+</BaseLayout>

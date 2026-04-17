@@ -1,0 +1,31 @@
+---
+import { siteConfig } from '../site.config';
+---
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <span>© {new Date().getFullYear()} {siteConfig.author}.</span>
+      <a href="/rss.xml">RSS</a>
+      <a href="/sitemap-index.xml">Sitemap</a>
+    </div>
+    <div class="muted small">Built with Astro.</div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 0;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-inner a { margin-left: 0.85rem; color: var(--fg-muted); }
+  .footer-inner a:hover { color: var(--accent); }
+</style>
