@@ -1,16 +1,17 @@
 ---
 import { siteConfig } from '../site.config';
+import { withBase, stripBase } from '../lib/url';
 import ThemeToggle from './ThemeToggle.astro';
 
-const { pathname } = Astro.url;
+const pathname = stripBase(Astro.url.pathname);
 function isActive(href: string) {
   if (href === '/') return pathname === '/';
-  return pathname === href || pathname.startsWith(href + '/');
+  return pathname === href || pathname === href + '/' || pathname.startsWith(href + '/');
 }
 ---
 <aside class="sidebar">
   <div class="sidebar-inner">
-    <a href="/" class="brand">
+    <a href={withBase('/')} class="brand">
       <span class="brand-mark">▲</span>
       <span class="brand-name">{siteConfig.title}</span>
     </a>
@@ -21,7 +22,7 @@ function isActive(href: string) {
         {siteConfig.nav.map((item) => (
           <li>
             <a
-              href={item.href}
+              href={withBase(item.href)}
               class={`nav-link${isActive(item.href) ? ' active' : ''}`}
             >
               {item.label}
@@ -33,7 +34,7 @@ function isActive(href: string) {
 
     <div class="sidebar-actions">
       <ThemeToggle />
-      <a class="btn" href="/rss.xml" title="RSS feed" aria-label="RSS feed">
+      <a class="btn" href={withBase('/rss.xml')} title="RSS feed" aria-label="RSS feed">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
         RSS
       </a>

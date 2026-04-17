@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getAllTags } from '../../lib/posts';
+import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
   const tags = await getAllTags();
@@ -16,8 +17,8 @@ const { tag, posts } = Astro.props;
 ---
 <BaseLayout title={`#${tag}`} description={`Posts tagged with ${tag}.`}>
   <Breadcrumbs items={[
-    { label: 'Home', href: '/' },
-    { label: 'Tags', href: '/tags' },
+    { label: 'Home', href: withBase('/') },
+    { label: 'Tags', href: withBase('/tags/') },
     { label: `#${tag}` },
   ]} />
   <header class="page-header">

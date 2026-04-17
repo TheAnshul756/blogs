@@ -2,7 +2,7 @@ export const siteConfig = {
   title: 'Dev Notes',
   description: 'A tech blog about software, systems, and the craft of building.',
   author: 'Anshul',
-  url: 'https://example.com',
+  url: 'https://theanshul756.github.io/blogs',
   email: 'hello@example.com',
   social: {
     github: 'https://github.com/TheAnshul756',

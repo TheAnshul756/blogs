@@ -2,9 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { siteConfig } from '../site.config';
+import { withBase } from '../lib/url';
 ---
 <BaseLayout title="About" description={`About ${siteConfig.author} and this blog.`}>
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'About' }]} />
   <article class="about">
     <header class="about-header">
       <div class="avatar" aria-hidden="true">{siteConfig.author.charAt(0)}</div>
@@ -32,12 +33,12 @@ import { siteConfig } from '../site.config';
     <h2>Hire me / get in touch</h2>
     <p>
       I'm open to interesting freelance, consulting, and full-time roles.
-      Reach out via the <a href="/contact">contact form</a>
+      Reach out via the <a href={withBase('/contact/')}>contact form</a>
       or drop me an email at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
     </p>
     <p class="cta-row">
-      <a class="btn btn-primary" href="/contact">Get in touch</a>
-      <a class="btn" href="/resume.pdf">Download resume</a>
+      <a class="btn btn-primary" href={withBase('/contact/')}>Get in touch</a>
+      <a class="btn" href={withBase('/resume.pdf')}>Download resume</a>
     </p>
 
     <h2>Elsewhere</h2>

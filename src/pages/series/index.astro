@@ -2,12 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getAllSeries, slugify } from '../../lib/posts';
+import { withBase } from '../../lib/url';
 
 const series = await getAllSeries();
 const entries = [...series.entries()].sort((a, b) => b[1].length - a[1].length);
 ---
 <BaseLayout title="Series" description="Multi-part post series.">
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Series' }]} />
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Series' }]} />
   <header class="page-header">
     <h1>Series</h1>
     <p class="muted">Posts grouped into multi-part sequences.</p>
@@ -18,7 +19,7 @@ const entries = [...series.entries()].sort((a, b) => b[1].length - a[1].length);
   <ul class="series-list">
     {entries.map(([name, posts]) => (
       <li>
-        <a href={`/series/${slugify(name)}/`}>
+        <a href={withBase(`/series/${slugify(name)}/`)}>
           <span class="series-name">{name}</span>
           <span class="muted small">{posts.length} parts</span>
         </a>

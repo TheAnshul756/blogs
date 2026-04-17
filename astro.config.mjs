@@ -6,7 +6,9 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkGfm from 'remark-gfm';
 
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://theanshul756.github.io',
+  base: '/blogs',
+  trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
   vite: {
     build: {

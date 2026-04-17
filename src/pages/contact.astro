@@ -3,9 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { siteConfig } from '../site.config';
+import { withBase } from '../lib/url';
 ---
 <BaseLayout title="Contact" description="Get in touch.">
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Contact' }]} />
   <header class="page-header">
     <h1>Contact</h1>
     <p class="muted">Have a question, an idea, or want to work together? Send a message.</p>

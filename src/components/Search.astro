@@ -1,4 +1,7 @@
 ---
+import { withBase } from '../lib/url';
+const pagefindJs = withBase('/pagefind/pagefind-ui.js');
+const pagefindCss = withBase('/pagefind/pagefind-ui.css');
 ---
 <div class="search-wrap">
   <button id="search-open" class="search-trigger" aria-label="Open search">
@@ -78,10 +81,10 @@
   }
 </style>
 
-<script>
+<script define:vars={{ pagefindJs }}>
   async function setup() {
-    const openBtn = document.getElementById('search-open') as HTMLButtonElement | null;
-    const dialog = document.getElementById('search-dialog') as HTMLDialogElement | null;
+    const openBtn = document.getElementById('search-open');
+    const dialog = document.getElementById('search-dialog');
     const closeBtn = document.getElementById('search-close');
     const container = document.getElementById('pagefind-search');
     if (!openBtn || !dialog || !container) return;
@@ -91,28 +94,30 @@
       if (initialized) return;
       initialized = true;
       try {
-        const mod: any = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
+        const mod = await import(/* @vite-ignore */ pagefindJs);
         const PagefindUI = mod.PagefindUI || (mod.default && mod.default.PagefindUI);
         new PagefindUI({ element: '#pagefind-search', showSubResults: true });
       } catch (e) {
-        container!.innerHTML = '<p class="muted small">Search index is generated at build time. Run <code>npm run build</code> to enable search.</p>';
+        container.innerHTML = '<p class="muted small">Search index is generated at build time. Run <code>npm run build</code> to enable search.</p>';
       }
     }
 
     const open = async () => {
       await initPagefind();
       if (!dialog.open) dialog.showModal();
-      const input = dialog.querySelector<HTMLInputElement>('input[type="text"], input[type="search"]');
-      setTimeout(() => input?.focus(), 50);
+      const input = dialog.querySelector('input[type="text"], input[type="search"]');
+      setTimeout(() => input && input.focus(), 50);
     };
 
     openBtn.addEventListener('click', open);
-    closeBtn?.addEventListener('click', () => dialog.close());
+    if (closeBtn) closeBtn.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog) dialog.close();
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && !(e.target as HTMLElement)?.matches?.('input, textarea')) {
+      const t = e.target;
+      const inField = t && typeof t.matches === 'function' && t.matches('input, textarea');
+      if (e.key === '/' && !inField) {
         e.preventDefault();
         open();
       }
@@ -127,4 +132,4 @@
   }
 </script>
 
-<link rel="stylesheet" href="/pagefind/pagefind-ui.css" onerror="this.remove()" />
+<link rel="stylesheet" href={pagefindCss} onerror="this.remove()" />

@@ -1,12 +1,13 @@
 ---
 import { siteConfig } from '../site.config';
+import { withBase } from '../lib/url';
 ---
 <footer class="site-footer">
   <div class="footer-inner">
     <div>
       <span>© {new Date().getFullYear()} {siteConfig.author}.</span>
-      <a href="/rss.xml">RSS</a>
-      <a href="/sitemap-index.xml">Sitemap</a>
+      <a href={withBase('/rss.xml')}>RSS</a>
+      <a href={withBase('/sitemap-index.xml')}>Sitemap</a>
     </div>
     <div class="muted small">Built with Astro.</div>
   </div>

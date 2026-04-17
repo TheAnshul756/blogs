@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getAllCategories } from '../../lib/posts';
+import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
   const cats = await getAllCategories();
@@ -16,8 +17,8 @@ const { category, posts } = Astro.props;
 ---
 <BaseLayout title={category} description={`Posts in the ${category} category.`}>
   <Breadcrumbs items={[
-    { label: 'Home', href: '/' },
-    { label: 'Categories', href: '/categories' },
+    { label: 'Home', href: withBase('/') },
+    { label: 'Categories', href: withBase('/categories/') },
     { label: category },
   ]} />
   <header class="page-header">

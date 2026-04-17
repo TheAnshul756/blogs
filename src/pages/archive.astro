@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getArchive, formatDate } from '../lib/posts';
+import { withBase } from '../lib/url';
 
 const archive = await getArchive();
 const keys = [...archive.keys()].sort().reverse();
@@ -11,7 +12,7 @@ const monthName = (ym: string) => {
 };
 ---
 <BaseLayout title="Archive" description="All posts by month.">
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Archive' }]} />
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Archive' }]} />
   <header class="page-header">
     <h1>Archive</h1>
     <p class="muted">All posts organized by month.</p>
@@ -26,7 +27,7 @@ const monthName = (ym: string) => {
             <time datetime={p.data.pubDate.toISOString()} class="muted small">
               {formatDate(p.data.pubDate)}
             </time>
-            <a href={`/posts/${p.id}/`}>{p.data.title}</a>
+            <a href={withBase(`/posts/${p.id}/`)}>{p.data.title}</a>
           </li>
         ))}
       </ul>

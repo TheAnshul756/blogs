@@ -2,12 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getAllCategories } from '../../lib/posts';
+import { withBase } from '../../lib/url';
 
 const cats = await getAllCategories();
 const entries = [...cats.entries()].sort((a, b) => b[1].length - a[1].length);
 ---
 <BaseLayout title="Categories" description="Browse posts by category.">
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Categories' }]} />
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Categories' }]} />
   <header class="page-header">
     <h1>Categories</h1>
     <p class="muted">Top-level buckets for posts.</p>
@@ -15,7 +16,7 @@ const entries = [...cats.entries()].sort((a, b) => b[1].length - a[1].length);
   <ul class="cat-list">
     {entries.map(([cat, posts]) => (
       <li>
-        <a href={`/categories/${cat.toLowerCase()}/`}>
+        <a href={withBase(`/categories/${cat.toLowerCase()}/`)}>
           <span class="cat-name">{cat}</span>
           <span class="muted small">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</span>
         </a>

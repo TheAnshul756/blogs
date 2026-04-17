@@ -5,6 +5,7 @@ import Search from '../components/Search.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { siteConfig } from '../site.config';
 import { getAllPosts } from '../lib/posts';
+import { withBase } from '../lib/url';
 
 const posts = await getAllPosts();
 const recent = posts.slice(0, 6);
@@ -20,7 +21,7 @@ const recent = posts.slice(0, 6);
   <section>
     <div class="section-header">
       <h2>Recent posts</h2>
-      <a class="muted small" href="/posts">All posts →</a>
+      <a class="muted small" href={withBase('/posts/')}>All posts →</a>
     </div>
     {recent.map((p) => <PostCard post={p} />)}
   </section>

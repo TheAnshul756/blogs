@@ -2,19 +2,20 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getAllTags } from '../../lib/posts';
+import { withBase } from '../../lib/url';
 
 const tags = await getAllTags();
 const entries = [...tags.entries()].sort((a, b) => b[1].length - a[1].length);
 ---
 <BaseLayout title="Tags" description="All tags on the blog.">
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Tags' }]} />
+  <Breadcrumbs items={[{ label: 'Home', href: withBase('/') }, { label: 'Tags' }]} />
   <header class="page-header">
     <h1>Tags</h1>
     <p class="muted">Browse posts by tag.</p>
   </header>
   <div class="tag-cloud">
     {entries.map(([tag, posts]) => (
-      <a class="chip big" href={`/tags/${tag}/`}>
+      <a class="chip big" href={withBase(`/tags/${tag}/`)}>
         #{tag} <span class="count">{posts.length}</span>
       </a>
     ))}

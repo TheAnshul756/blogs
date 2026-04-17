@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { formatDate, getReadingTime } from '../lib/posts';
+import { withBase } from '../lib/url';
 
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -11,7 +12,7 @@ const rt = getReadingTime(post.body);
 ---
 <article class={`post-card${compact ? ' compact' : ''}`}>
   <h3 class="post-card-title">
-    <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+    <a href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>
   </h3>
   <p class="post-card-meta">
     <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
@@ -20,7 +21,7 @@ const rt = getReadingTime(post.body);
     {post.data.category && (
       <>
         <span class="dot">•</span>
-        <a class="cat" href={`/categories/${post.data.category.toLowerCase()}/`}>{post.data.category}</a>
+        <a class="cat" href={withBase(`/categories/${post.data.category.toLowerCase()}/`)}>{post.data.category}</a>
       </>
     )}
   </p>
@@ -28,7 +29,7 @@ const rt = getReadingTime(post.body);
   {!compact && post.data.tags.length > 0 && (
     <div class="post-card-tags">
       {post.data.tags.map((t) => (
-        <a class="chip" href={`/tags/${t.toLowerCase()}/`}>#{t}</a>
+        <a class="chip" href={withBase(`/tags/${t.toLowerCase()}/`)}>#{t}</a>
       ))}
     </div>
   )}
