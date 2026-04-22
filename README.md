@@ -1,6 +1,6 @@
-# Dev Notes — an Astro tech blog
+# Anshul's Space — a personal blog
 
-A space for my thoughts and learnings that I would like to share. Built with [Astro](https://astro.build).
+A space to share thoughts, learnings, and explorations — books, software, new activities, and life in general. Built with [Astro](https://astro.build).
 
 ## Features
 
@@ -22,7 +22,7 @@ A space for my thoughts and learnings that I would like to share. Built with [As
 - Reading-progress bar
 - Shiki syntax highlighting with a "Copy" button per code block
 - Dark/light mode toggle (preference persisted, respects system default)
-- Share buttons (Twitter/X, LinkedIn, HN, copy link)
+- Share buttons (LinkedIn, HN, copy link)
 - Reactions (like, love, insightful, celebrate) stored in localStorage
 - Comments via Giscus (GitHub Discussions)
 
@@ -34,7 +34,7 @@ A space for my thoughts and learnings that I would like to share. Built with [As
 **Credibility & SEO**
 - RSS feed at `/rss.xml`
 - Sitemap at `/sitemap-index.xml`
-- Open Graph and Twitter Card meta tags on every page
+- Open Graph and Twitter Card meta tags on every page (no Twitter account needed)
 - Canonical URLs
 - `robots.txt`
 
