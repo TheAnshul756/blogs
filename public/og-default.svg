@@ -7,8 +7,8 @@
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <g transform="translate(80 180)">
-    <text font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="92" font-weight="700" fill="#ffffff">Dev Notes</text>
-    <text font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="36" y="90" fill="#a1a8b3">A tech blog about software, systems, and the craft of building.</text>
+    <text font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="92" font-weight="700" fill="#ffffff">Anshul's Space</text>
+    <text font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="36" y="90" fill="#a1a8b3">Thoughts, learnings, and explorations — books, software, and life.</text>
     <text font-family="ui-monospace, monospace" font-size="26" y="220" fill="#6ea8ff">theanshul756.github.io/blogs</text>
   </g>
 </svg>

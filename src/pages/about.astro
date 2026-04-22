@@ -11,40 +11,37 @@ import { withBase } from '../lib/url';
       <div class="avatar" aria-hidden="true">{siteConfig.author.charAt(0)}</div>
       <div>
         <h1>Hi, I'm {siteConfig.author}.</h1>
-        <p class="muted">Software engineer writing about systems, tools, and the craft of shipping things.</p>
+        <p class="muted">Writing about books, software, learning, and whatever else I find worth sharing.</p>
       </div>
     </header>
 
-    <h2>About this blog</h2>
+    <h2>About this space</h2>
     <p>
-      This is a space for long-form notes on problems I've worked through —
-      from distributed systems and database internals to developer workflow
-      and the small tools that make the job more pleasant.
+      This is where I share things I find worth writing about — books I've read,
+      software I've built, activities I've picked up, and lessons learned along the way.
+      No single topic, just whatever I'm thinking about.
     </p>
 
     <h2>What you'll find here</h2>
     <ul>
-      <li>Deep-dives into specific engineering problems</li>
-      <li>Reviews of tools and libraries I'm using</li>
-      <li>Short notes and experiments</li>
-      <li>Occasional opinion pieces on software culture</li>
+      <li>Notes on books and ideas</li>
+      <li>Things I've built or learned while building software</li>
+      <li>New activities and hobbies I'm exploring</li>
+      <li>Thoughts I want to get out of my head and onto a page</li>
     </ul>
 
-    <h2>Hire me / get in touch</h2>
+    <h2>Get in touch</h2>
     <p>
-      I'm open to interesting freelance, consulting, and full-time roles.
       Reach out via the <a href={withBase('/contact/')}>contact form</a>
-      or drop me an email at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+      or email me at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
     </p>
     <p class="cta-row">
       <a class="btn btn-primary" href={withBase('/contact/')}>Get in touch</a>
-      <a class="btn" href={withBase('/resume.pdf')}>Download resume</a>
     </p>
 
     <h2>Elsewhere</h2>
     <p>
       <a href={siteConfig.social.github} target="_blank" rel="me">GitHub</a> ·
-      <a href={siteConfig.social.twitter} target="_blank" rel="me">Twitter</a> ·
       <a href={siteConfig.social.linkedin} target="_blank" rel="me">LinkedIn</a>
     </p>
   </article>
