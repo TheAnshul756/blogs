@@ -11,7 +11,7 @@ const base = '/blogs';
 export default defineConfig({
   site: 'https://theanshul756.github.io',
   base,
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   integrations: [mdx(), sitemap()],
   vite: {
     build: {
