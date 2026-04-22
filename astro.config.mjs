@@ -4,10 +4,13 @@ import sitemap from '@astrojs/sitemap';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkGfm from 'remark-gfm';
+import { remarkWikiLinks } from './src/lib/remark-wiki-links.ts';
+
+const base = '/blogs';
 
 export default defineConfig({
   site: 'https://theanshul756.github.io',
-  base: '/blogs',
+  base,
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
   vite: {
@@ -18,7 +21,7 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [remarkGfm, [remarkWikiLinks, { base }]],
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],

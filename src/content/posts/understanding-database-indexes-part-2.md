@@ -8,7 +8,7 @@ series: "Understanding database indexes"
 seriesOrder: 2
 ---
 
-[Part 1](./understanding-database-indexes-part-1/) covered B-trees. Today:
+[[understanding-database-indexes-part-1|Part 1]] covered B-trees. Today:
 hash indexes, which on paper look strictly better for point lookups.
 
 ## The pitch
