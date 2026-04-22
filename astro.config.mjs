@@ -16,7 +16,7 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: [/^\/pagefind\//],
+        external: [/\/pagefind\//],
       },
     },
   },

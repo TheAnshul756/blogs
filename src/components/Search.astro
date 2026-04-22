@@ -1,7 +1,8 @@
 ---
 import { withBase } from '../lib/url';
-const pagefindJs = withBase('/pagefind/pagefind-ui.js');
+const pagefindJs  = withBase('/pagefind/pagefind-ui.js');
 const pagefindCss = withBase('/pagefind/pagefind-ui.css');
+const baseUrl     = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <div class="search-wrap">
   <button id="search-open" class="search-trigger" aria-label="Open search">
@@ -81,7 +82,7 @@ const pagefindCss = withBase('/pagefind/pagefind-ui.css');
   }
 </style>
 
-<script define:vars={{ pagefindJs }}>
+<script define:vars={{ pagefindJs, baseUrl }}>
   async function setup() {
     const openBtn = document.getElementById('search-open');
     const dialog = document.getElementById('search-dialog');
@@ -94,9 +95,14 @@ const pagefindCss = withBase('/pagefind/pagefind-ui.css');
       if (initialized) return;
       initialized = true;
       try {
-        const mod = await import(/* @vite-ignore */ pagefindJs);
-        const PagefindUI = mod.PagefindUI || (mod.default && mod.default.PagefindUI);
-        new PagefindUI({ element: '#pagefind-search', showSubResults: true });
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = pagefindJs;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+        new window.PagefindUI({ element: '#pagefind-search', showSubResults: true, baseUrl: baseUrl || '/' });
       } catch (e) {
         container.innerHTML = '<p class="muted small">Search index is generated at build time. Run <code>npm run build</code> to enable search.</p>';
       }
