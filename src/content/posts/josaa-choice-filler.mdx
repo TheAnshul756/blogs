@@ -1,6 +1,6 @@
 ---
-title: "JoSAA Choice Filler — How to Stop Clicking Add 200 Times"
-description: I built a Chrome extension that fills your JoSAA college choices automatically, sorted by last year's closing ranks. Here's why I made it and how to use it.
+title: "JoSAA Choice Filler — How to Stop Clicking Add 600+ Times"
+description: The JoSAA portal gives you 600+ colleges with no sort order and expects you to click Add on every single one. I built a Chrome extension that uses last year's closing ranks as a base so you're not starting blind — then fills the choices automatically.
 pubDate: 2026-06-07
 category: "Tools I Built"
 tags:
@@ -13,17 +13,19 @@ tags:
 
 import YouTube from '../../components/YouTube.astro';
 
-If you've ever been through JoSAA counselling, you already know the pain. You have hundreds of colleges and programs to rank, a clunky web portal, and you're doing this at one of the most stressful moments of your life — right after JEE results. The last thing you want to do is manually click "Add" two hundred times and then panic that you got the order wrong.
+If you've been through JoSAA counselling, you know what the portal looks like: a flat list of 600+ college-program combinations, no sort order, no ranking, and an "Add" button you have to click individually for every single one you want. That's 600+ clicks — before you've even thought about whether the order makes sense.
 
-That's the problem I ran into. I wanted to fill my choices in a smart order — not randomly, not alphabetically, but sorted by last year's closing ranks. The idea is simple: use the previous year's cutoffs as a baseline so you're not flying blind, then adjust from there based on your own preferences. But JoSAA doesn't give you that. It gives you a flat list and an "Add" button.
+But the clicking isn't actually the hard part. The hard part is figuring out the order in the first place. The portal gives you no starting point. You're essentially expected to have already done all the research, ranked everything in your head, and then execute it manually on a website that wasn't designed to help you think.
 
-So I built something.
+The only sensible base to start from is last year's closing ranks. If a seat closed at rank 4800 last year, that's your anchor. You can move it up or down based on your preferences — branch interest, location, institute reputation — but at least you're not starting from nothing. The problem is JoSAA doesn't show you this either. It just shows you the list.
+
+So I built something that does.
 
 ---
 
 ## Video walkthrough
 
-<YouTube id="c7J__UrTNe0" title="JoSAA Choice Filler — full walkthrough" />
+<YouTube id="2UGSZR1eJVw" title="JoSAA Choice Filler — full walkthrough" />
 
 The video covers everything — including how to install the extension directly from the GitHub zip, which I'll also explain in writing below.
 
@@ -31,12 +33,12 @@ The video covers everything — including how to install the extension directly 
 
 ## What it does
 
-**JoSAA Choice Filler** is a Chrome extension that does two things:
+**JoSAA Choice Filler** is a Chrome extension that solves both problems:
 
-1. **Shows you all available seats sorted by closing rank** — a ranker view with filters and drag-and-drop reordering, so you can build your priority list before touching the portal.
-2. **Fills your choices automatically** — once you've decided the order, it clicks "Add" for you, one by one, exactly as you specified.
+1. **Gives you a sorted starting point** — a ranker view that loads all available seats ordered by last year's closing rank, so you're working from a meaningful base instead of a random list. Filter by institute type, program, quota, state. Drag rows up or down to adjust. This is where the actual decision-making happens — before you touch the portal.
+2. **Fills your choices automatically** — once you've settled on an order, it clicks "Add" for you on every single one. All 600+ if needed. You don't click anything.
 
-The ranker is the core idea. Instead of guessing which colleges to pick or scrolling endlessly through the portal, you get a sorted table — last year's closing rank first — and you can drag rows around until the order feels right. Then you hit "Fill Choices" and go make yourself a cup of tea.
+The key insight is the last year's closing rank as a base. It's not perfect — ranks shift year to year — but it's the best default ordering that exists. A seat that closed at rank 5000 last year is a far more useful starting position than whatever random order JoSAA presents it in. You work from there and personalise from there. The extension just makes that data available and then handles the mechanical part.
 
 ---
 
@@ -157,8 +159,10 @@ No — Chrome extensions only work on desktop. You need a computer.
 
 ## Why I built this
 
-The frustrating part about JoSAA isn't filling choices — it's deciding the order. And the only sensible starting point for that is last year's data. If a college closed at rank 5000 last year, it's a useful anchor even if this year is slightly different. But the portal doesn't show you that. It just shows you a list.
+When I was going through counselling, I sat down to fill choices and realised I had no idea where to start. 600+ options, no sort order, no context. The portal is designed to let you fill choices, not to help you make them.
 
-I wanted a tool that would let me reason about choices the way I actually think about them — sorted, filterable, reorderable — and then just handle the clicking part for me. This is that tool.
+I looked for something that would show me last year's data in a usable format — sorted, filterable, something I could reason with. I couldn't find it. So I spent time building it instead of spending that time actually thinking about my choices, which is backwards.
 
-If you're going through JoSAA this year and find it useful, I'd genuinely like to hear how it went.
+The result is this extension. The core idea is simple: last year's closing ranks are the best default sort order that exists for this decision. Everything else — your branch preferences, location, institute tier — is a personalisation on top of that base. The extension gives you the base. You handle the personalisation by dragging rows around. Then it handles the 600+ clicks.
+
+If you're going through JoSAA this year and it saves you some time and stress, a ⭐ on [GitHub](https://github.com/TheAnshul756/councelling-filler) would genuinely make my day. And if something breaks or doesn't work for your case, open an issue — counselling season is short and I'll try to fix things quickly.
