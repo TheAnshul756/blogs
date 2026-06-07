@@ -1,0 +1,164 @@
+---
+title: "JoSAA Choice Filler — How to Stop Clicking Add 200 Times"
+description: I built a Chrome extension that fills your JoSAA college choices automatically, sorted by last year's closing ranks. Here's why I made it and how to use it.
+pubDate: 2026-06-07
+category: "Tools I Built"
+tags:
+  - josaa
+  - chrome-extension
+  - jee
+  - college-admissions
+  - tools
+---
+
+import YouTube from '../../components/YouTube.astro';
+
+If you've ever been through JoSAA counselling, you already know the pain. You have hundreds of colleges and programs to rank, a clunky web portal, and you're doing this at one of the most stressful moments of your life — right after JEE results. The last thing you want to do is manually click "Add" two hundred times and then panic that you got the order wrong.
+
+That's the problem I ran into. I wanted to fill my choices in a smart order — not randomly, not alphabetically, but sorted by last year's closing ranks. The idea is simple: use the previous year's cutoffs as a baseline so you're not flying blind, then adjust from there based on your own preferences. But JoSAA doesn't give you that. It gives you a flat list and an "Add" button.
+
+So I built something.
+
+---
+
+## Video walkthrough
+
+<YouTube id="c7J__UrTNe0" title="JoSAA Choice Filler — full walkthrough" />
+
+The video covers everything — including how to install the extension directly from the GitHub zip, which I'll also explain in writing below.
+
+---
+
+## What it does
+
+**JoSAA Choice Filler** is a Chrome extension that does two things:
+
+1. **Shows you all available seats sorted by closing rank** — a ranker view with filters and drag-and-drop reordering, so you can build your priority list before touching the portal.
+2. **Fills your choices automatically** — once you've decided the order, it clicks "Add" for you, one by one, exactly as you specified.
+
+The ranker is the core idea. Instead of guessing which colleges to pick or scrolling endlessly through the portal, you get a sorted table — last year's closing rank first — and you can drag rows around until the order feels right. Then you hit "Fill Choices" and go make yourself a cup of tea.
+
+---
+
+## Step 1 — Install the extension
+
+There are two ways to install it. The Chrome Web Store is the easiest. GitHub is there if you want it.
+
+### Option A — Chrome Web Store
+
+1. Open **Google Chrome** on your computer — this does not work on mobile, and it doesn't work on other browsers
+2. Go to the Chrome Web Store and search for **JoSAA Choice Filler** (link coming soon)
+3. Click the blue **Add to Chrome** button
+4. A popup appears — click **Add extension**
+
+### Option B — Install from GitHub (manual)
+
+If the Chrome Web Store isn't available to you, or you just prefer it this way:
+
+1. Go to [github.com/TheAnshul756/councelling-filler](https://github.com/TheAnshul756/councelling-filler)
+2. Click the green **Code** button → **Download ZIP**
+3. Once downloaded, **extract** the ZIP (right-click → Extract All on Windows, double-click on Mac)
+4. Open Chrome and go to `chrome://extensions`
+5. Toggle **Developer mode** on (top-right corner of that page)
+6. Click **Load unpacked**
+7. Select the folder you just extracted
+
+That's it — the extension is now installed. The video walkthrough above shows this step by step if you get stuck anywhere.
+
+---
+
+To pin the extension so it's always visible:
+- Click the **puzzle-piece icon** in the top-right corner of Chrome
+- Find **JoSAA Choice Filler** in the list
+- Click the **pin icon** next to it
+
+---
+
+## Step 2 — Open the JoSAA choice filling page
+
+1. Log in to the JoSAA portal at `josaa.nic.in`
+2. Navigate to the **Choice Filling** section as you normally would
+3. Make sure the page showing the list of available colleges and programs is open
+
+This part is important — the extension reads the page you're on. If you open the extension from the wrong page, it won't find any choices.
+
+---
+
+## Step 3 — Use the Ranker (the main thing)
+
+This is the bit that makes the whole thing worth installing.
+
+1. Click the **JoSAA Choice Filler icon** in the top-right corner of Chrome
+2. Click **"Open Ranker"**
+3. A new tab opens showing all available seats, sorted by closing rank from last year
+4. Use the filters at the top to narrow things down — by institute type, program, quota, state, etc.
+5. **Drag rows up or down** to set your preferred order — maybe you want a specific IIT branch higher even if the rank cutoff is tighter, or you want to prioritise a home-state NIT
+6. Once the order looks right, click **"Fill Choices"**
+7. Switch back to the JoSAA tab — you'll see your choices being added automatically
+
+The ranker picks college names directly from what's on the JoSAA page, so there's no mismatch between what you see in the ranker and what gets filled.
+
+---
+
+## Step 4 — Manual fill (if you already know what you want)
+
+If you've done your research and already have a list ready, you can skip the ranker and type it in directly:
+
+1. Click the extension icon
+2. In the text box, enter one choice per line in this format:
+
+```
+IIT Bombay | Computer Science and Engineering
+IIT Delhi | Electrical Engineering
+NIT Trichy | Mechanical Engineering
+```
+
+3. Click **"Fill Choices"**
+4. The extension adds each one automatically
+
+It's that literal — institute name on the left, program name on the right, separated by a pipe character. The names need to match exactly what JoSAA shows, which is why the ranker is usually the better option.
+
+---
+
+## Options
+
+Before filling, you'll see two checkboxes in the popup:
+
+- **Auto-accept dialogs** — automatically clicks "OK" on any confirmation popups that appear during filling. Leave this on unless you have a reason to review each one manually.
+- **Clear existing choices** — removes your previously filled choices before adding new ones. Useful if you want to completely redo your list from scratch.
+
+---
+
+## Resetting your choices
+
+If you want to wipe everything and start over:
+
+1. Click the extension icon
+2. Click **"Reset All"**
+3. All your filled choices are removed from the page
+
+---
+
+## Common questions
+
+**It says "No choices found" — what do I do?**
+
+Make sure you're on the JoSAA choice filling page — the one that actually shows the list of available colleges and programs. The extension reads the current page. If you're on a different section of the portal, it won't find anything.
+
+**Some choices show "NOT FOUND" — why?**
+
+The name you typed in the manual fill box doesn't exactly match what JoSAA has on the page. College and program names on JoSAA are oddly specific — a missing comma or a slightly different abbreviation is enough to break the match. Use the Ranker instead; since it pulls names directly from the page, this problem doesn't happen.
+
+**Does this work on mobile?**
+
+No — Chrome extensions only work on desktop. You need a computer.
+
+---
+
+## Why I built this
+
+The frustrating part about JoSAA isn't filling choices — it's deciding the order. And the only sensible starting point for that is last year's data. If a college closed at rank 5000 last year, it's a useful anchor even if this year is slightly different. But the portal doesn't show you that. It just shows you a list.
+
+I wanted a tool that would let me reason about choices the way I actually think about them — sorted, filterable, reorderable — and then just handle the clicking part for me. This is that tool.
+
+If you're going through JoSAA this year and find it useful, I'd genuinely like to hear how it went.

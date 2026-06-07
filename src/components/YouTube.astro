@@ -1,0 +1,56 @@
+---
+interface Props {
+  id: string;
+  title?: string;
+}
+const { id, title = 'Video tutorial' } = Astro.props;
+const thumbnail = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+const url = `https://www.youtube.com/watch?v=${id}`;
+---
+
+<a href={url} target="_blank" rel="noopener noreferrer" class="yt-embed" aria-label={title}>
+  <img src={thumbnail} alt={title} class="yt-thumb" />
+  <div class="yt-play" aria-hidden="true">
+    <svg viewBox="0 0 68 48" width="68" height="48">
+      <path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C56.3 0 34 0 34 0S11.7 0 7.5 1.7a8.5 8.5 0 0 0-6 6C0 11.9 0 24 0 24s0 12.1 1.5 16.3a8.5 8.5 0 0 0 6 6C11.7 48 34 48 34 48s22.3 0 26.5-1.7a8.5 8.5 0 0 0 6-6C68 36.1 68 24 68 24s0-12.1-1.5-16.3z" fill="#ff0000"/>
+      <path d="M27 34l18-10-18-10v20z" fill="#fff"/>
+    </svg>
+  </div>
+</a>
+
+<style>
+  .yt-embed {
+    display: block;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+    text-decoration: none;
+    line-height: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  }
+  .yt-thumb {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: filter 0.2s ease;
+  }
+  .yt-embed:hover .yt-thumb {
+    filter: brightness(0.85);
+  }
+  .yt-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .yt-play svg {
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+    transition: transform 0.2s ease;
+  }
+  .yt-embed:hover .yt-play svg {
+    transform: scale(1.12);
+  }
+</style>
